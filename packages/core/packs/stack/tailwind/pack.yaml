@@ -1,0 +1,18 @@
+id: stack/tailwind
+slot: stack
+name: Tailwind Utility-First
+version: 1.0.0
+summary: Tailwind conventions — design tokens, responsive variants, no arbitrary values without reason
+tags: [tailwindcss, css, styling, frontend, design-system]
+stack_keys: [tailwindcss]
+principle_keys: [atomic-design]
+stack_version: { tailwindcss: "4" }
+paradigm: neutral
+conflicts_with: []
+token_cost: 380
+enforcement: advised
+emits:
+  agents_lines: []
+  rules: []
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: true

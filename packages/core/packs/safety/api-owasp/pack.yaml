@@ -1,0 +1,40 @@
+id: safety/api-owasp
+slot: safety
+name: OWASP API Checklist
+version: 1.0.0
+summary: Server-side validation, authz on every route, no secrets in code, safe error output
+tags: [security, owasp, api, validation, authz]
+stack_keys: [express, fastify, hono, koa, trpc]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 440
+enforcement: checked
+emits:
+  agents_lines:
+    - "Security: every route validates input + enforces authz; never log secrets or stack traces to clients"
+  rules: []
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: true
+  checks:
+    - id: no-eval
+      kind: forbid_regex
+      globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\beval\s*\('
+      message: "eval() executes strings as code — dispatch safely instead"
+    - id: no-unsafe-raw-sql
+      kind: forbid_regex
+      globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\$(queryRawUnsafe|executeRawUnsafe)'
+      message: "raw-unsafe SQL bypasses parameterization — use tagged $queryRaw/$executeRaw"
+    - id: no-hardcoded-secret
+      kind: forbid_regex
+      scope: text
+      globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '(password|passwd|secret|api[_-]?key|private[_-]?key|access[_-]?token)\s*[:=]\s*["''][^"''\s]{8,}["'']'
+      flags: i
+      message: "hardcoded credential literal — load from env or a secret manager"

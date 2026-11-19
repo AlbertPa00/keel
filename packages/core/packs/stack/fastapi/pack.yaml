@@ -1,0 +1,36 @@
+id: stack/fastapi
+slot: stack
+name: FastAPI Conventions
+version: 1.0.0
+summary: FastAPI — pydantic schemas at the edge, async handlers, parameterized queries
+tags: [fastapi, api, python, backend]
+stack_keys: [fastapi]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 340
+enforcement: checked
+emits:
+  agents_lines:
+    - "FastAPI: every route validates via pydantic models; SQL goes through parameterization, never f-strings"
+  rules:
+    - file: fastapi-conventions.md
+      trigger: glob
+      globs: ["**/*.py", "**/routers/**"]
+      body: |
+        FastAPI conventions:
+        - Request/response shapes are pydantic models — no raw dict payloads.
+        - Handlers stay async; blocking work goes to background tasks or run_in_threadpool.
+        - Dependencies (Depends) carry auth/db — handlers never construct their own.
+        - SQL is parameterized — f-string interpolation into queries is a vulnerability.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-fstring-sql
+      kind: forbid_regex
+      scope: text
+      globs: ["**/*.py"]
+      exclude_globs: ["**/test_*.py", "**/*_test.py", "tests/**", "**/fixtures/**", "**/migrations/**"]
+      pattern: '\.(execute|query|executemany|raw)\s*\(\s*f["'']'
+      message: "f-string interpolated into a SQL call — use bound parameters"

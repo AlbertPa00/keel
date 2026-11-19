@@ -1,0 +1,28 @@
+id: stack/prisma
+slot: stack
+name: Prisma Data Layer
+version: 1.0.0
+summary: Prisma conventions — reversible migrations, transactions for multi-write, no N+1 via select/include
+tags: [prisma, database, orm, postgres, backend]
+stack_keys: [prisma]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 420
+enforcement: checked
+emits:
+  agents_lines: []
+  rules: []
+  permissions:
+    allow: []
+    ask: ["Exec(npx prisma migrate)", "Exec(pnpm prisma migrate)"]
+    deny: ["Exec(npx prisma db push --force-reset)", "Exec(npx prisma migrate reset)"]
+  skill: true
+  checks:
+    - id: no-prisma-client-scatter
+      kind: forbid_regex
+      globs: ["**/*.ts"]
+      exclude_globs: ["**/db.ts", "**/db/**", "**/prisma.ts", "**/lib/prisma*", "**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: 'new\s+PrismaClient\s*\('
+      message: "new PrismaClient() outside the shared db module — reuse the singleton (connection exhaustion)"

@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Exec(node .keel/verify.mjs)",
+      "Exec(git status)",
+      "Exec(git diff)",
+      "Exec(git log)",
+      "Exec(git add)",
+      "Exec(git commit)",
+      "Exec(pnpm -r exec tsc --noEmit)",
+      "Exec(pnpm lint)",
+      "Exec(pnpm test)",
+      "mcp__keel__*",
+      "Exec(node .keel/verify.mjs --fast)",
+      "Exec(node .keel/check-drift.mjs)"
+    ],
+    "ask": [
+      "Exec(git push)",
+      "Exec(pnpm add)",
+      "Exec(pnpm install)"
+    ],
+    "deny": [
+      "Write(.env*)",
+      "Write(*.env)",
+      "Exec(sudo)",
+      "Exec(rm -rf)",
+      "Exec(git push --force)",
+      "Exec(git reset --hard)",
+      "Write(package-lock.json)",
+      "Write(pnpm-lock.yaml)",
+      "Write(yarn.lock)",
+      "Write(bun.lockb)",
+      "Write(bun.lock)",
+      "Write(Cargo.lock)",
+      "Write(go.sum)",
+      "Write(Pipfile.lock)",
+      "Write(poetry.lock)",
+      "Write(uv.lock)"
+    ]
+  }
+}

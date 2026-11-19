@@ -1,0 +1,31 @@
+id: style/fp-strict
+slot: style
+name: Functional-First Style
+version: 1.0.0
+summary: Guard clauses, pure functions, declarative data flow — no classes in domain code
+tags: [functional-programming, fp, style, purity, guard-clauses]
+# No stack_keys: paradigm packs are language-agnostic. Selecting on "typescript"
+# alone forced a paradigm onto every hybrid TS repo (token_cost tie-break picked oop).
+stack_keys: []
+principle_keys: [solid, dry]
+stack_version: {}
+paradigm: fp
+conflicts_with: [style/oop-strict]
+token_cost: 380
+enforcement: advised
+emits:
+  agents_lines:
+    - "Style: functional-first — guard clauses + early returns, max 2 nesting levels, declarative map/filter/reduce"
+  rules:
+    - file: style-fp.md
+      trigger: glob
+      globs: ["**/*.ts", "**/*.tsx"]
+      body: |
+        Functional style rules for this codebase:
+        - Guard clauses first; never nest past 2 levels — decompose instead.
+        - Functions do one thing; if it reads like two sentences, split it.
+        - Prefer map/filter/reduce and composition over loops and mutation.
+        - Domain code is pure: inject clock, random, and I/O as parameters.
+        - No obvious comments — name things instead.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false

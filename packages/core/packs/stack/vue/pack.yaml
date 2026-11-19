@@ -1,0 +1,34 @@
+id: stack/vue
+slot: stack
+name: Vue Composition API
+version: 1.0.0
+summary: Vue 3 — Composition API, script setup, typed props/emits
+tags: [vue, frontend, sfc]
+stack_keys: [vue]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 300
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: vue-conventions.md
+      trigger: glob
+      globs: ["**/*.vue", "**/composables/**", "**/stores/**"]
+      body: |
+        Vue conventions:
+        - `<script setup>` + Composition API for all new components — no Options API.
+        - Props/emits are typed (`defineProps<{...}>`); shared state goes through composables or Pinia.
+        - v-html is a footgun — sanitize before rendering raw markup.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-options-api
+      kind: forbid_regex
+      scope: raw
+      globs: ["**/*.vue"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\bthis\.\$'
+      message: "Options-API this.$* in .vue — use Composition API emits/props/refs"

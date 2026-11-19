@@ -1,0 +1,34 @@
+id: stack/next
+slot: stack
+name: Next.js App Router
+version: 1.0.0
+summary: App Router — server components by default, no pages-dir data APIs
+tags: [next, react, app-router, ssr]
+stack_keys: [next]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 320
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: next-app-router.md
+      trigger: glob
+      globs: ["app/**", "src/app/**", "pages/**", "next.config.*"]
+      body: |
+        Next.js App Router conventions:
+        - Server Components are the default — "use client" only for real interactivity.
+        - Fetch data in server components or route handlers, never in client components.
+        - pages/ data APIs do not exist in app/ — use route handlers + fetch caching.
+        - next.config.* edits are infrastructure changes — keep them minimal and commented.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-pages-apis-in-appdir
+      kind: forbid_regex
+      globs: ["app/**/*.ts", "app/**/*.tsx", "src/app/**/*.ts", "src/app/**/*.tsx"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\b(getServerSideProps|getStaticProps|getStaticPaths|getInitialProps)\b'
+      message: "pages-router data API inside app/ — use async server components or route handlers"

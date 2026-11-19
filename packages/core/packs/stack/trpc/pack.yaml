@@ -1,0 +1,33 @@
+id: stack/trpc
+slot: stack
+name: tRPC Procedures
+version: 1.0.0
+summary: tRPC — every procedure validates input; thin resolvers over services
+tags: [trpc, api, rpc, typescript]
+stack_keys: [trpc]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 300
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: trpc-conventions.md
+      trigger: glob
+      globs: ["**/trpc/**", "**/routers/**", "**/server/**"]
+      body: |
+        tRPC conventions:
+        - Every procedure declares `.input()` with a real schema — validation is not optional.
+        - Resolvers stay thin: parse input, call a service, shape output.
+        - Use router composition (`mergeRouters`/nested routers), not one flat router file.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-z-any-input
+      kind: forbid_regex
+      globs: ["**/*.ts"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\.input\s*\(\s*z\.any\s*\('
+      message: "z.any() as procedure input validates nothing — define the real schema"

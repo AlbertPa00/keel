@@ -1,0 +1,33 @@
+id: stack/playwright
+slot: stack
+name: Playwright E2E
+version: 1.0.0
+summary: Playwright — locator-first assertions, auto-waiting, no hard sleeps
+tags: [playwright, e2e, testing, browser]
+stack_keys: [playwright]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 320
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: playwright-conventions.md
+      trigger: glob
+      globs: ["tests/**", "e2e/**", "**/*.spec.*", "playwright.config.*"]
+      body: |
+        Playwright conventions:
+        - Prefer role/text locators (`getByRole`, `getByText`) over CSS selectors.
+        - Assertions auto-wait — `await expect(locator).toBeVisible()`, never manual sleeps.
+        - Tests are hermetic: seed data via API/fixtures, no dependence on test order.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-hard-sleeps
+      kind: forbid_regex
+      globs: ["**/*.spec.*", "tests/**", "e2e/**", "**/e2e/**"]
+      exclude_globs: ["**/fixtures/**"]
+      pattern: '\bwaitForTimeout\s*\('
+      message: "hard sleep in Playwright — assert on a locator state instead"

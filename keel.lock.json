@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "generated_at": "2026-11-18T23:03:02.956Z",
+  "catalog_hash": "61fdaf318cd06d4f434274a99a8f93da99f26c545d6ba506a91301e0ffe0a93e",
+  "spec_hash": "d9c9c41a1889b7b2586ca28bd632b2297efd51001c6ce3ca3016d01dd72bec6f",
+  "packs": [
+    {
+      "id": "stack/typescript-strict",
+      "version": "1.0.0",
+      "hash": "482b4dfc6b113097750395aceded7460ee58acec107c496b4cd0ec474e022f9a"
+    },
+    {
+      "id": "stack/vitest",
+      "version": "1.0.0",
+      "hash": "15583574094414012cd1861fb3ab5950f63ae7c0f39bb8585605e44ab81a684c"
+    },
+    {
+      "id": "stack/zod",
+      "version": "1.0.0",
+      "hash": "7b16991e120c908155f39364a1f8aca796c058de04ca71c349cd99f20f15db78"
+    },
+    {
+      "id": "architecture/layered",
+      "version": "1.0.0",
+      "hash": "db919fbb2937f7da13ac59e5f75e47aa45559285fc3de61ebbf2357bd8a20d64"
+    },
+    {
+      "id": "style/fp-strict",
+      "version": "1.0.0",
+      "hash": "2772f5fe16ebd4c71b63c247c94d3e133bb074c7816d0d481d31c05bb73e3f9f"
+    },
+    {
+      "id": "safety/baseline",
+      "version": "1.0.0",
+      "hash": "15a7e493788bbda71b5a74eb6c6ce31bf3cb04b60322d9776d18d8d3d137b110"
+    },
+    {
+      "id": "workflow/tdd",
+      "version": "1.0.0",
+      "hash": "eedcecec499f5756ae58d95fca240b61af319904994e30b83a8199f2ccf0d167"
+    },
+    {
+      "id": "workflow/verified-completion",
+      "version": "1.0.0",
+      "hash": "abc6d4345eca5ca276e2436a7933ca08050610f7657d5eb9aa7bb73592327406"
+    }
+  ],
+  "files": [
+    {
+      "path": ".devin/config.json",
+      "sha256": "7176631421742a713535d29a35683e93627056bbdd9ffd92259a4e1b7dd06f41",
+      "created": true,
+      "managed_block": false,
+      "undo": {
+        "hooks_existed": false,
+        "permissions_existed": false,
+        "rcf_existed": false,
+        "permissions_added": {
+          "allow": [
+            "Read(**)",
+            "Exec(node .keel/verify.mjs)",
+            "Exec(pnpm -r exec tsc --noEmit && pnpm lint && pnpm test)",
+            "Exec(git status)",
+            "Exec(git diff)",
+            "Exec(git log)",
+            "Exec(git add)",
+            "Exec(git commit)",
+            "Exec(pnpm -r exec tsc --noEmit)",
+            "Exec(pnpm lint)",
+            "Exec(pnpm test)",
+            "mcp__keel__*",
+            "Exec(node .keel/verify.mjs --fast)",
+            "Exec(node .keel/check-drift.mjs)"
+          ],
+          "ask": [
+            "Exec(git push)",
+            "Exec(pnpm add)",
+            "Exec(pnpm install)"
+          ],
+          "deny": [
+            "Write(.env*)",
+            "Write(*.env)",
+            "Write(*lock*)",
+            "Exec(sudo)",
+            "Exec(rm -rf)",
+            "Exec(git push --force)",
+            "Exec(git reset --hard)",
+            "Write(package-lock.json)",
+            "Write(pnpm-lock.yaml)",
+            "Write(yarn.lock)",
+            "Write(bun.lockb)",
+            "Write(bun.lock)",
+            "Write(Cargo.lock)",
+            "Write(go.sum)",
+            "Write(Pipfile.lock)",
+            "Write(poetry.lock)",
+            "Write(uv.lock)"
+          ]
+        }
+      }
+    },
+    {
+      "path": ".devin/hooks.v1.json",
+      "sha256": "fe2f95146da082853325c3ca4679c2a56e0007a5cf94da038dd0bf1d45b4e407",
+      "created": true,
+      "managed_block": false,
+      "undo": {
+        "hooks_existed": false,
+        "permissions_existed": false,
+        "rcf_existed": false,
+        "hook_commands_added": [
+          "node .keel/hooks/stop-verify.mjs",
+          "node .keel/hooks/post-compaction.mjs",
+          "node .keel/hooks/turn-stamp.mjs",
+          "node .keel/hooks/mark-dirty.mjs"
+        ]
+      }
+    },
+    {
+      "path": ".devin/rules/layer-boundaries.md",
+      "sha256": "5418abcdb3d592d01a6b855cf987f150fc9428ad3d7f3f1345dcdc44aad11407",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".devin/rules/style-fp.md",
+      "sha256": "f2d843e817d9ed3d001949ac2a18e3fd3d69bf8686b00b2d1e81a2c48c7da00d",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".devin/rules/vitest-conventions.md",
+      "sha256": "05929d996de2d1ade265281c22b65e8dd87174fea56296a890c6e05686fc4fd2",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".devin/skills/layered/SKILL.md",
+      "sha256": "3e3e4b6614989c5ddd1cb7023a34d8bc351ad6fa43e7586beef5abddaf1cb63a",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".devin/skills/tdd/SKILL.md",
+      "sha256": "13961a17b53f2004a65e2d135e309321edd38975fce3b17edc0e9c47dd805b57",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".devin/skills/typescript-strict/SKILL.md",
+      "sha256": "669b4217fc1377e4b0904a3310410de28852c70fdc01bec9f6aff55af245af91",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".github/workflows/keel-verify.yml",
+      "sha256": "6d5e72e2354ef8a9fdaea61c404ffaba36de4264ee205d8fe41899e91b399c0f",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".keel/check-boundaries.mjs",
+      "sha256": "60cd680607f777a962e210cf5b0f133dea05d089ce8c2213bba7c1e8cc22854c",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".keel/check-drift.mjs",
+      "sha256": "0fcff2a25536f9a1f5778114d9461b8e1a6bcc35ee4de6a77821155a1e37e5c6",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".keel/check-packs.mjs",
+      "sha256": "cc8d7f8387f2ad9b12f30e6144c1da128f0000ecb9d895741115f9243698961f",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".keel/harness.json",
+      "sha256": "5cff1f96b94ca6976c747de6418d4256a6d0acdafb6c18d95fe3f8ae096eca9b",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".keel/hooks/post-compaction.mjs",
+      "sha256": "444f05ebca7089c76abf5528756386290d4993d5c1e941e9e2a47156f6be9166",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".keel/hooks/stop-verify.mjs",
+      "sha256": "fc9712097a0e7252d4024e16d20fcb5787906cbe2bfd1df927e0a5a8700cf374",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".keel/hooks/turn-stamp.mjs",
+      "sha256": "931de552e5c6b86cc719be94743ff5b178cdc9293227225549237322779da675",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": ".keel/verify.mjs",
+      "sha256": "4e8a08d61f4d34bdd6b7b3e5a9664b8c1192f4c93d513fce3454c15836571773",
+      "created": true,
+      "managed_block": false
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "30a0ab98e3a6e2343b4ae4cb39763cbada75dd4968b546b53c5c853ab6466a2e",
+      "created": false,
+      "managed_block": true
+    }
+  ]
+}

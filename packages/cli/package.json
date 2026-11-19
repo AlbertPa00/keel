@@ -1,0 +1,25 @@
+{
+  "name": "keel-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "keel": "./dist/keel.mjs"
+  },
+  "files": [
+    "dist",
+    "packs"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && pnpm bundle",
+    "bundle": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/keel.mjs --banner:js=\"import{createRequire}from'module';const require=createRequire(import.meta.url);\" && node -e \"require('node:fs').cpSync('../core/packs','packs',{recursive:true})\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@keel/core": "workspace:*",
+    "yaml": "^2.6.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "typescript": "^5.7.0"
+  }
+}

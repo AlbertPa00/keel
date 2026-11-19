@@ -1,0 +1,41 @@
+id: stack/go-idiomatic
+slot: stack
+name: Go Idiomatic Conventions
+version: 1.0.0
+summary: Idiomatic Go — explicit errors, no fmt.Print in libraries, small interfaces
+tags: [go, backend, idiomatic]
+stack_keys: [gin, echo, chi, cobra, grpc]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 300
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: go-idiomatic.md
+      trigger: glob
+      globs: ["**/*.go", "go.mod"]
+      body: |
+        Go conventions:
+        - Errors are values: return them, wrap with fmt.Errorf("...: %w"), never panic in libraries.
+        - Accept interfaces, return structs. Keep interfaces at the consumer.
+        - No fmt.Print* outside cmd/ — use log/slog or the injected logger.
+        - Package names are short, lowercase, no stutter (http.Server not http.HTTPServer).
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-fmt-print
+      kind: forbid_regex
+      globs: ["**/*.go"]
+      exclude_globs: ["cmd/**", "**/main.go", "**/*_test.go", "**/fixtures/**"]
+      pattern: '\bfmt\.Print'
+      message: "fmt.Print* in library code — return values or use a logger"
+    - id: no-discarded-call
+      kind: forbid_regex
+      globs: ["**/*.go"]
+      exclude_globs: ["**/*_test.go", "**/fixtures/**"]
+      pattern: '^\s*_\s*=\s*'
+      flags: m
+      message: "discarded return value — handle or document why it is ignored"

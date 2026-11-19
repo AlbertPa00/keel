@@ -1,0 +1,40 @@
+id: stack/rust-idiomatic
+slot: stack
+name: Rust Idiomatic Conventions
+version: 1.0.0
+summary: Idiomatic Rust — Result over panic, thiserror/anyhow layering, no dbg! in commits
+tags: [rust, backend, systems]
+stack_keys: [tokio, serde, axum, actix, clap]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 300
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: rust-idiomatic.md
+      trigger: glob
+      globs: ["**/*.rs", "Cargo.toml"]
+      body: |
+        Rust conventions:
+        - Library code returns Result — unwrap/expect only in main, tests, and build scripts.
+        - Error types: thiserror in libraries, anyhow at the application edge.
+        - Derive serde traits on data types; keep business logic free of framework types.
+        - Prefer iterators and &str/&[T] borrows over owned clones.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-unwrap
+      kind: forbid_regex
+      globs: ["**/*.rs"]
+      exclude_globs: ["**/tests/**", "**/*_test.rs", "**/benches/**", "**/build.rs", "**/fixtures/**"]
+      pattern: '\bunwrap\s*\(\s*\)'
+      message: 'unwrap() panics — return Result or expect("why this is safe")'
+    - id: no-dbg
+      kind: forbid_regex
+      globs: ["**/*.rs"]
+      exclude_globs: ["**/tests/**", "**/*_test.rs", "**/fixtures/**"]
+      pattern: '\bdbg!'
+      message: "dbg! left in committed code — use tracing/log or remove it"

@@ -1,0 +1,18 @@
+id: workflow/tdd
+slot: workflow
+name: TDD Discipline
+version: 1.0.0
+summary: Red-green-refactor — failing test before implementation, smallest step that passes
+tags: [tdd, testing, workflow, red-green-refactor]
+stack_keys: []
+principle_keys: [tdd]
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 420
+enforcement: advised
+emits:
+  agents_lines: []
+  rules: []
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: true

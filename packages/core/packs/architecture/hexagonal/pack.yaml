@@ -1,0 +1,27 @@
+id: architecture/hexagonal
+slot: architecture
+name: Hexagonal (Ports & Adapters)
+version: 1.0.0
+summary: Domain core with explicit ports; adapters implement ports — boundaries enforced by keel
+tags: [architecture, hexagonal, ports-adapters, boundaries, clean-architecture]
+stack_keys: []
+principle_keys: [solid, clean-architecture]
+stack_version: {}
+paradigm: neutral
+conflicts_with: [architecture/layered]
+token_cost: 480
+enforcement: enforced
+emits:
+  agents_lines:
+    - "Architecture: hexagonal — domain touches ports only; adapters implement them; boundary check enforced"
+  rules:
+    - file: hexagonal-boundaries.md
+      trigger: glob
+      globs: ["src/**", "apps/**", "packages/**"]
+      body: |
+        Hexagonal boundaries are enforced by `node .keel/check-boundaries.mjs`.
+        Domain and application layers depend only on ports (interfaces they own).
+        Adapters implement ports and are wired at the composition root.
+        Never import an adapter from inside the core.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: true

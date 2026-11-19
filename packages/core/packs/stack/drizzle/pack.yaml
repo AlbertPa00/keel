@@ -1,0 +1,33 @@
+id: stack/drizzle
+slot: stack
+name: Drizzle ORM Conventions
+version: 1.0.0
+summary: Schema-first Drizzle — parameterized queries, migrations over push
+tags: [drizzle, orm, database, sql]
+stack_keys: [drizzle]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 300
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: drizzle-conventions.md
+      trigger: glob
+      globs: ["src/**", "db/**", "drizzle/**", "**/schema*.ts"]
+      body: |
+        Drizzle conventions:
+        - Schema lives in one module; queries import it — never redefine tables inline.
+        - Use sql`` tagged templates or query builders — values are parameterized, never interpolated.
+        - Schema changes ship as generated migrations, not drizzle-kit push in production.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-sql-raw
+      kind: forbid_regex
+      globs: ["**/*.ts"]
+      exclude_globs: ["**/migrations/**", "drizzle/**", "**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\bsql\.raw\s*\('
+      message: "sql.raw() bypasses parameterization — use sql`` template or prepared queries"

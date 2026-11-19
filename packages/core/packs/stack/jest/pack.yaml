@@ -1,0 +1,34 @@
+id: stack/jest
+slot: stack
+name: Jest Conventions
+version: 1.0.0
+summary: Jest conventions — co-located specs, arrange/act/assert, deterministic boundaries
+tags: [jest, testing, unit-test]
+stack_keys: [jest]
+principle_keys: [tdd]
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 300
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: jest-conventions.md
+      trigger: glob
+      globs: ["**/*.test.*", "**/*.spec.*", "**/__tests__/**", "tests/**"]
+      body: |
+        Jest conventions:
+        - Co-locate unit tests next to the module (`foo.test.ts`); integration tests under `tests/`.
+        - One behavior per `it` — arrange / act / assert, no shared mutable fixtures.
+        - Mock at module boundaries (`jest.mock`), never patch internals.
+        - Deterministic: no real timers, clocks, or network — use fake timers / fixtures.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-focused-tests
+      kind: forbid_regex
+      globs: ["**/*.test.*", "**/*.spec.*", "**/__tests__/**", "tests/**"]
+      exclude_globs: ["**/fixtures/**"]
+      pattern: '\.only\s*\('
+      message: "focused test (.only) committed — remove before merge"

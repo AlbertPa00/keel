@@ -1,0 +1,27 @@
+id: architecture/atomic-design
+slot: architecture
+name: Atomic Design UI
+version: 1.0.0
+summary: UI layer discipline — atoms → molecules → organisms → templates → pages, upward imports forbidden
+tags: [architecture, atomic-design, ui, frontend, components]
+stack_keys: [react, vue, svelte]
+principle_keys: [atomic-design]
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 400
+enforcement: enforced
+emits:
+  agents_lines:
+    - "UI architecture: atomic — components import only from shallower levels (atoms never see organisms)"
+  rules:
+    - file: atomic-design.md
+      trigger: glob
+      globs: ["**/atoms/**", "**/molecules/**", "**/organisms/**", "**/ui/**", "**/components/**"]
+      body: |
+        Atomic design direction (enforced by `node .keel/check-boundaries.mjs`):
+        atoms → molecules → organisms → templates → pages.
+        A level may import shallower levels only. Shared hooks/utils belong in
+        `lib/` or `hooks/` — reachable from any level — never inside a deeper level.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false

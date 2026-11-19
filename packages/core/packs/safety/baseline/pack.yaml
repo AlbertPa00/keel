@@ -1,0 +1,39 @@
+id: safety/baseline
+slot: safety
+name: Permission Baseline
+version: 1.0.0
+summary: Hard permission floor — secrets and lockfiles denied, installs and pushes gated
+tags: [safety, permissions, secrets, destructive, guardrails]
+stack_keys: []
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 120
+enforcement: enforced
+emits:
+  agents_lines: []
+  rules: []
+  permissions:
+    allow: ["Read(**)"]
+    ask: ["Exec(git push)"]
+    deny:
+      - "Write(.env*)"
+      - "Write(*.env)"
+      # Exact lockfile names only — a bare *lock* wildcard silently denies
+      # real source files (clock.ts, block.tsx, scrollLock.ts, deadlock.rs).
+      - "Write(package-lock.json)"
+      - "Write(pnpm-lock.yaml)"
+      - "Write(yarn.lock)"
+      - "Write(bun.lockb)"
+      - "Write(bun.lock)"
+      - "Write(Cargo.lock)"
+      - "Write(go.sum)"
+      - "Write(Pipfile.lock)"
+      - "Write(poetry.lock)"
+      - "Write(uv.lock)"
+      - "Exec(sudo)"
+      - "Exec(rm -rf)"
+      - "Exec(git push --force)"
+      - "Exec(git reset --hard)"
+  skill: false

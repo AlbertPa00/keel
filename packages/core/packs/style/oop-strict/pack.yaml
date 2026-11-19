@@ -1,0 +1,30 @@
+id: style/oop-strict
+slot: style
+name: Object-Oriented Style
+version: 1.0.0
+summary: Class-based domain modeling — encapsulation, interfaces, dependency injection
+tags: [oop, style, classes, encapsulation, dependency-injection]
+# No stack_keys: paradigm packs are language-agnostic. Selecting on "typescript"
+# alone forced a paradigm onto every hybrid TS repo (token_cost tie-break picked oop).
+stack_keys: []
+principle_keys: [solid, dry]
+stack_version: {}
+paradigm: oop
+conflicts_with: [style/fp-strict]
+token_cost: 360
+enforcement: advised
+emits:
+  agents_lines:
+    - "Style: object-oriented — small cohesive classes, behavior next to data, interfaces at boundaries"
+  rules:
+    - file: style-oop.md
+      trigger: glob
+      globs: ["**/*.ts", "**/*.tsx"]
+      body: |
+        OO style rules for this codebase:
+        - Small cohesive classes; private state, public behavior.
+        - Depend on interfaces at layer boundaries; inject via constructor.
+        - Prefer composition over inheritance — max one level of extends.
+        - No obvious comments — name things instead.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false

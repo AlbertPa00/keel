@@ -1,0 +1,27 @@
+id: architecture/layered
+slot: architecture
+name: Layered Architecture
+version: 1.0.0
+summary: Strict inner-to-outer layering — domain owns nothing outward, boundaries enforced by keel
+tags: [architecture, layered, boundaries, dependency-direction]
+stack_keys: []
+principle_keys: [solid, clean-architecture]
+stack_version: {}
+paradigm: neutral
+conflicts_with: [architecture/hexagonal]
+token_cost: 480
+enforcement: enforced
+emits:
+  agents_lines:
+    - "Architecture: layered — imports flow outward-to-inner only; `node .keel/check-boundaries.mjs` enforces it"
+  rules:
+    - file: layer-boundaries.md
+      trigger: glob
+      globs: ["src/**", "apps/**", "packages/**"]
+      body: |
+        Import direction is enforced mechanically by `node .keel/check-boundaries.mjs`.
+        Before adding an import across folders, check the layer map in AGENTS.md:
+        an inner layer must never import from an outer one, and a layer may only
+        import the layers it declares in `may_import`.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: true

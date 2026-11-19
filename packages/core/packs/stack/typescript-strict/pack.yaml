@@ -1,0 +1,32 @@
+id: stack/typescript-strict
+slot: stack
+name: TypeScript Strict Idioms
+version: 1.0.0
+summary: Strict-mode TypeScript patterns — narrowing, exhaustive switches, branded ids, no any
+tags: [typescript, strict, types, safety]
+stack_keys: [typescript]
+principle_keys: [solid]
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 450
+enforcement: checked
+emits:
+  agents_lines: []
+  rules: []
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: true
+  checks:
+    - id: no-as-any
+      kind: forbid_regex
+      globs: ["**/*.ts", "**/*.tsx"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\bas\s+any\b'
+      message: "'as any' defeats strict typing — narrow properly or use unknown + guards"
+    - id: no-ts-ignore
+      kind: forbid_regex
+      scope: raw
+      globs: ["**/*.ts", "**/*.tsx"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '@ts-ignore\b'
+      message: "@ts-ignore silences errors unexplained — use @ts-expect-error with a reason"

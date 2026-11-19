@@ -1,0 +1,27 @@
+id: stack/node-api
+slot: stack
+name: Node API Conventions
+version: 1.0.0
+summary: Node/Express/Fastify/Hono API conventions — boundary validation, error envelope, idempotent writes
+tags: [node, express, fastify, hono, api, rest, backend]
+stack_keys: [express, fastify, hono, koa]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 500
+enforcement: checked
+emits:
+  agents_lines:
+    - "API: validate all input at the route boundary; errors use {errorMessages, errors} envelope"
+  rules: []
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: true
+  checks:
+    - id: no-console-in-src
+      kind: forbid_regex
+      globs: ["**/*.ts", "**/*.js"]
+      exclude_globs: ["**/scripts/**", "**/bin/**", "**/cli/**", "**/seed*", "**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/e2e/**", "**/eval/**", "**/fixtures/**", "**/docs/**", "**/public/**", "**/vendor/**", "**/third_party/**", "**/third-party/**", "**/*.min.*", "**/dist/**", "**/build/**", "**/coverage/**"]
+      pattern: '\bconsole\.(log|warn|error|info|debug)\s*\('
+      severity: warn
+      message: "console.* in service code — route through the structured logger"

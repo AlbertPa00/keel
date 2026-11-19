@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "verify": [
+    "pnpm -r exec tsc --noEmit && pnpm lint && pnpm test"
+  ],
+  "verify_fast": [
+    "pnpm -r exec tsc --noEmit && pnpm lint"
+  ],
+  "verify_timeout_sec": 180,
+  "boundaries": {
+    "layers": [
+      {
+        "name": "util",
+        "paths": [
+          "packages/core/src/util/**"
+        ],
+        "may_import": []
+      },
+      {
+        "name": "domain",
+        "paths": [
+          "packages/core/src/spec/**",
+          "packages/core/src/catalog/**",
+          "packages/core/src/fingerprint.ts",
+          "packages/core/src/graph.ts"
+        ],
+        "may_import": [
+          "util"
+        ]
+      },
+      {
+        "name": "compiler",
+        "paths": [
+          "packages/core/src/resolve/**",
+          "packages/core/src/emit/**",
+          "packages/core/src/plan/**",
+          "packages/core/src/index.ts"
+        ],
+        "may_import": [
+          "util",
+          "domain"
+        ]
+      },
+      {
+        "name": "surfaces",
+        "paths": [
+          "packages/cli/src/**",
+          "packages/mcp/src/**"
+        ],
+        "may_import": [
+          "util",
+          "domain",
+          "compiler"
+        ]
+      }
+    ],
+    "exceptions": [],
+    "aliases": {
+      "@/*": "src/*",
+      "~/*": "src/*",
+      "keel-cli": "packages/cli/src",
+      "@keel/core": "packages/core/src",
+      "keel-mcp": "packages/mcp/src"
+    }
+  },
+  "style": {
+    "max_nesting": 0,
+    "max_function_lines": 0,
+    "comments": "minimal"
+  },
+  "invariants": [
+    "Validate all external input at the boundary with schemas; infer types, never duplicate them",
+    "Architecture: layered — imports flow outward-to-inner only; `node .keel/check-boundaries.mjs` enforces it",
+    "Style: functional-first — guard clauses + early returns, max 2 nesting levels, declarative map/filter/reduce",
+    "Before finishing: run `node .keel/verify.mjs` — fix failures yourself; the Stop hook enforces it"
+  ],
+  "checks": [
+    {
+      "id": "stack/typescript-strict/no-as-any",
+      "kind": "forbid_regex",
+      "globs": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "exclude_globs": [
+        "**/*.test.*",
+        "**/*.spec.*",
+        "tests/**",
+        "**/__tests__/**",
+        "**/fixtures/**"
+      ],
+      "pattern": "\\bas\\s+any\\b",
+      "flags": "",
+      "scope": "code",
+      "severity": "error",
+      "message": "'as any' defeats strict typing — narrow properly or use unknown + guards"
+    },
+    {
+      "id": "stack/typescript-strict/no-ts-ignore",
+      "kind": "forbid_regex",
+      "globs": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "exclude_globs": [
+        "**/*.test.*",
+        "**/*.spec.*",
+        "tests/**",
+        "**/__tests__/**",
+        "**/fixtures/**"
+      ],
+      "pattern": "@ts-ignore\\b",
+      "flags": "",
+      "scope": "raw",
+      "severity": "error",
+      "message": "@ts-ignore silences errors unexplained — use @ts-expect-error with a reason"
+    },
+    {
+      "id": "stack/vitest/no-focused-tests",
+      "kind": "forbid_regex",
+      "globs": [
+        "**/*.test.*",
+        "**/*.spec.*",
+        "tests/**",
+        "**/__tests__/**"
+      ],
+      "exclude_globs": [
+        "**/fixtures/**"
+      ],
+      "pattern": "\\.only\\s*\\(",
+      "flags": "",
+      "scope": "code",
+      "severity": "error",
+      "message": "focused test (.only) committed — remove before merge"
+    },
+    {
+      "id": "stack/zod/no-z-any",
+      "kind": "forbid_regex",
+      "globs": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "exclude_globs": [
+        "**/*.test.*",
+        "**/*.spec.*",
+        "tests/**",
+        "**/__tests__/**",
+        "**/fixtures/**"
+      ],
+      "pattern": "\\bz\\.any\\s*\\(",
+      "flags": "",
+      "scope": "code",
+      "severity": "error",
+      "message": "z.any() validates nothing — declare the real shape or z.unknown()"
+    }
+  ]
+}

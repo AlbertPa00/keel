@@ -1,0 +1,36 @@
+{
+  "Stop": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node .keel/hooks/stop-verify.mjs",
+          "timeout": 210
+        }
+      ]
+    }
+  ],
+  "PostCompaction": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node .keel/hooks/post-compaction.mjs"
+        }
+      ]
+    }
+  ],
+  "UserPromptSubmit": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node .keel/hooks/turn-stamp.mjs"
+        }
+      ]
+    }
+  ]
+}

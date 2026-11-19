@@ -1,0 +1,26 @@
+id: stack/zod
+slot: stack
+name: Zod Boundary Validation
+version: 1.0.0
+summary: Zod — schemas at every trust boundary, z.infer over hand-written types
+tags: [zod, validation, schema, typescript]
+stack_keys: [zod]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 280
+enforcement: checked
+emits:
+  agents_lines:
+    - "Validate all external input at the boundary with schemas; infer types, never duplicate them"
+  rules: []
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-z-any
+      kind: forbid_regex
+      globs: ["**/*.ts", "**/*.tsx"]
+      exclude_globs: ["**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\bz\.any\s*\('
+      message: "z.any() validates nothing — declare the real shape or z.unknown()"

@@ -1,0 +1,41 @@
+id: stack/python-strict
+slot: stack
+name: Python Strict Conventions
+version: 1.0.0
+summary: Typed, explicit Python — no bare except, no eval/exec, narrow exception handling
+tags: [python, typing, strict, backend]
+stack_keys: [fastapi, django, flask, pydantic, sqlalchemy]
+principle_keys: []
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 320
+enforcement: checked
+emits:
+  agents_lines: []
+  rules:
+    - file: python-strict.md
+      trigger: glob
+      globs: ["**/*.py", "pyproject.toml"]
+      body: |
+        Python strict conventions:
+        - Type-annotate public functions; mypy/pyright-clean modules stay clean.
+        - Catch narrow exceptions — never `except:` or `except Exception: pass`.
+        - No eval/exec on runtime data — use ast.literal_eval or dispatch tables.
+        - Config comes from env/pydantic-settings, not module-level constants.
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: false
+  checks:
+    - id: no-bare-except
+      kind: forbid_regex
+      globs: ["**/*.py"]
+      exclude_globs: ["**/test_*.py", "**/*_test.py", "tests/**", "**/conftest.py", "**/fixtures/**"]
+      pattern: '^\s*except\s*:'
+      flags: m
+      message: "bare except swallows everything (incl. KeyboardInterrupt) — name the exception"
+    - id: no-eval-exec
+      kind: forbid_regex
+      globs: ["**/*.py"]
+      exclude_globs: ["**/test_*.py", "**/*_test.py", "tests/**", "**/conftest.py", "**/fixtures/**"]
+      pattern: '\b(eval|exec)\s*\('
+      message: "eval()/exec() on runtime data — use ast.literal_eval or an explicit dispatch"

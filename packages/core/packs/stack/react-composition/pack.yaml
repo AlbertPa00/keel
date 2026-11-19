@@ -1,0 +1,26 @@
+id: stack/react-composition
+slot: stack
+name: React Composition Patterns
+version: 1.0.0
+summary: Modern React — composition over prop-drilling, server/client boundaries, no class components
+tags: [react, frontend, ui, composition, components]
+stack_keys: [react]
+principle_keys: [atomic-design]
+stack_version: { react: "19" }
+paradigm: fp
+conflicts_with: []
+token_cost: 520
+enforcement: checked
+emits:
+  agents_lines:
+    - "UI: React 19 function components only — no class components, no defaultProps"
+  rules: []
+  permissions: { allow: [], ask: [], deny: [] }
+  skill: true
+  checks:
+    - id: no-fetch-in-components
+      kind: forbid_regex
+      globs: ["**/*.tsx"]
+      exclude_globs: ["**/hooks/**", "**/*.hook.*", "**/*.test.*", "**/*.spec.*", "tests/**", "**/__tests__/**", "**/fixtures/**"]
+      pattern: '\bfetch\s*\('
+      message: "fetch() inside a component file — hoist data access into hooks/services"

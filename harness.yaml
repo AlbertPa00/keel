@@ -1,0 +1,62 @@
+version: 1
+project:
+  name: keel
+  intent: deterministic TypeScript agent-harness compiler with strict layered core and functional style
+targets:
+  - devin
+stack:
+  language: typescript
+  package_manager: pnpm
+  frameworks:
+    - vitest
+    - zod
+architecture:
+  style: layered
+  layers:
+    - name: util
+      paths:
+        - packages/core/src/util/**
+      may_import: []
+    - name: domain
+      paths:
+        - packages/core/src/spec/**
+        - packages/core/src/catalog/**
+        - packages/core/src/fingerprint.ts
+        - packages/core/src/graph.ts
+      may_import:
+        - util
+    - name: compiler
+      paths:
+        - packages/core/src/resolve/**
+        - packages/core/src/emit/**
+        - packages/core/src/plan/**
+        - packages/core/src/index.ts
+      may_import:
+        - util
+        - domain
+    - name: surfaces
+      paths:
+        - packages/cli/src/**
+        - packages/mcp/src/**
+      may_import:
+        - util
+        - domain
+        - compiler
+style:
+  paradigm: fp
+  comments: minimal
+  principles:
+    - solid
+    - tdd
+safety:
+  profile: standard
+autonomy:
+  mode: autonomous-verified
+  verify: pnpm -r exec tsc --noEmit && pnpm lint && pnpm test
+  verify_fast: pnpm -r exec tsc --noEmit && pnpm lint
+  stop_hook: true
+  post_compaction: true
+  ci: github
+budget:
+  always_on_tokens: 900
+  max_skills: 5

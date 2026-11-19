@@ -1,0 +1,19 @@
+id: workflow/verified-completion
+slot: workflow
+name: Verified Completion Loop
+version: 1.0.0
+summary: Agent self-verifies before ending a turn — Stop hook runs the verify command and blocks on failure
+tags: [workflow, verification, autonomy, tdd, ci]
+stack_keys: []
+principle_keys: [tdd]
+stack_version: {}
+paradigm: neutral
+conflicts_with: []
+token_cost: 150
+enforcement: enforced
+emits:
+  agents_lines:
+    - "Before finishing: run `node .keel/verify.mjs` — fix failures yourself; the Stop hook enforces it"
+  rules: []
+  permissions: { allow: ["Exec(node .keel/verify.mjs)"], ask: [], deny: [] }
+  skill: false
